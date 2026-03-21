@@ -1,2 +1,0 @@
-UUID=fc62bf84-ca59-402c-839b-6b6e35d4975d / btrfs defaults,subvol=@ 0 1
-UUID=fc62bf84-ca59-402c-839b-6b6e35d4975d /home btrfs defaults,subvol=@home 0 2
