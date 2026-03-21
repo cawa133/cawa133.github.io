@@ -1,9 +1,30 @@
-# <file system>                           <mount point>  <type>  <options>           <dump>  <pass>
-UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /              btrfs   defaults,subvol=@  0  1
-UUID_SUB=...                              /home          btrfs   defaults,subvol=@home 0  2
-UUID_SUB=...                              /var           btrfs   defaults,subvol=@var 0  2
-UUID_SUB=...                              /tmp           btrfs   defaults,noatime 0  2
-UUID_SUB=...                              /.snapshots    btrfs   defaults,subvol=@snapshots 0  2
-PARTUUID=...                              /boot          vfat    defaults 0  2
-PARTUUID=...                              /boot/efi      vfat    umask=0076 0  2
-PARTUUID=...                              [swap]         swap    defaults 0  0
+UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /  btrfs  defaults,subvol=@  0  1
+UUID_SUB=6a4f5e78-4b2d-4f91-9c3e-2d8f1a0b9c4e  /home  btrfs  defaults,subvol=@home  0  2
+PARTUUID=12345678-1234-1234-1234-123456789abc  /boot  vfat  defaults  0  2
+
+
+
+
+
+
+
+# 1. Загрузись с Live USB, открой терминал
+sudo mount -o subvol=@ /dev/sdX /mnt          # основной том
+sudo mount -o subvol=@home /dev/sdX /mnt/home # если есть
+sudo mount /dev/sdX1 /mnt/boot               # EFI/boot
+sudo mount --bind /dev /mnt/dev
+sudo mount --bind /proc /mnt/proc  
+sudo mount --bind /sys /mnt/sys
+sudo chroot /mnt
+
+# 2. В chroot создай /root
+mkdir /root
+echo "test" > /root/testfile
+
+# 3. Проверь fstab (твой сломан):
+cat /etc/fstab
+blkid | grep -E "(UUID|PARTUUID)" > /tmp/real-ids.txt
+
+# 4. Выйди и перезагрузись
+exit
+reboot
