@@ -1,10 +1,9 @@
-sudo mount /dev/sda1 /mnt
-sudo sh -c 'cat > /mnt/etc/fstab << EOF
-UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d / btrfs defaults,subvol=@ 0 1
-UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d /home btrfs defaults,subvol=@home 0 2
-UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d /.snapshots btrfs defaults,subvol=@snapshots 0 3
-UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d /var/cache btrfs defaults,subvol=@cache 0 2
-UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d /var/log btrfs defaults,subvol=@log 0 2
-EOF'
-sudo umount -R /mnt
-reboot
+# <file system>                           <mount point>  <type>  <options>           <dump>  <pass>
+UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /              btrfs   defaults,subvol=@  0  1
+UUID_SUB=...                              /home          btrfs   defaults,subvol=@home 0  2
+UUID_SUB=...                              /var           btrfs   defaults,subvol=@var 0  2
+UUID_SUB=...                              /tmp           btrfs   defaults,noatime 0  2
+UUID_SUB=...                              /.snapshots    btrfs   defaults,subvol=@snapshots 0  2
+PARTUUID=...                              /boot          vfat    defaults 0  2
+PARTUUID=...                              /boot/efi      vfat    umask=0076 0  2
+PARTUUID=...                              [swap]         swap    defaults 0  0
