@@ -1,4 +1,4 @@
-UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /  btrfs  defaults,subvol=@  0  1
+лUUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /  btrfs  defaults,subvol=@  0  1
 UUID_SUB=6a4f5e78-4b2d-4f91-9c3e-2d8f1a0b9c4e  /home  btrfs  defaults,subvol=@home  0  2
 PARTUUID=12345678-1234-1234-1234-123456789abc  /boot  vfat  defaults  0  2
 
@@ -28,3 +28,15 @@ blkid | grep -E "(UUID|PARTUUID)" > /tmp/real-ids.txt
 # 4. Выйди и перезагрузись
 exit
 reboot
+
+
+
+
+
+
+cat > /etc/fstab << EOF
+UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /              btrfs  defaults,subvol=@          0  1
+UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /home          btrfs  defaults,subvol=@home      0  2
+UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /.snapshots    btrfs  defaults,subvol=@snapshots 0  2
+PARTUUID=XXXX-XXXX  /boot/efi      vfat    umask=0076  0  2
+EOF
