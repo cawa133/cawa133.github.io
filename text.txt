@@ -68,3 +68,13 @@ update-grub
 exit
 umount -R /mnt
 reboot
+
+
+
+
+exit && \
+sudo mount --bind /dev /mnt/dev && \
+sudo mount --bind /proc /mnt/proc && \
+sudo mount --bind /sys /mnt/sys && \
+sudo mount --bind /run /mnt/run && \
+manjaro-chroot /mnt
