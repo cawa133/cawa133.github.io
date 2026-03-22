@@ -40,3 +40,31 @@ UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /home          btrfs  defaults,subvol
 UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /.snapshots    btrfs  defaults,subvol=@snapshots 0  2
 PARTUUID=XXXX-XXXX  /boot/efi      vfat    umask=0076  0  2
 EOF
+
+
+
+
+
+# 1. Создай правильный fstab:
+cat > /etc/fstab << 'EOF'
+# <file system>                           <mount point>  <type>  <options>           <dump>  <pass>
+UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /              btrfs   defaults,subvol=@          0  1
+UUID=fc62bf84-ca59-402c-839b-6b6e35dd975d  /home          btrfs   defaults,subvol=@home      0  2
+PARTUUID=XXXX-XXXX                        /boot/efi      vfat    umask=0076                 0  2
+EOF
+
+# 2. Получи PARTUUID для EFI:
+blkid | grep vfat
+# Скопируй PARTUUID и вставь в fstab
+
+# 3. Перегенерируй initramfs:
+mkinitcpio -P
+
+# 4. Переустанови GRUB:
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=manjaro
+update-grub
+
+# 5. Выйди и перезагрузись:
+exit
+umount -R /mnt
+reboot
